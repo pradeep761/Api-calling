@@ -1,0 +1,14 @@
+import React from 'react';
+import RandomVerse from './RandomVerse';
+import './App.css'; // Optional: Create this file for basic styles
+
+const App = () => {
+  return (
+    <div style={{ textAlign: 'center', padding: '20px' }}>
+      <h1>Bible Verse Fetcher</h1>
+      <RandomVerse />
+    </div>
+  );
+};
+
+export default App;
