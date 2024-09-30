@@ -1,0 +1,34 @@
+const express = require('express'); // Import Express framework
+const cors = require('cors'); // Import CORS middleware
+const axios = require('axios'); // Import Axios for making HTTP requests
+
+const app = express(); // Create an Express application
+const PORT = 5000; // Set the port number
+
+app.use(cors()); // Enable CORS for all routes
+
+// Endpoint to fetch a random Bible verse
+app.get('/random-verse', async (req, res) => {
+  try {
+    const response = await axios.get('https://labs.bible.org/api/?passage=random');
+    res.json(response.data[0]); // Send the random verse back to the client
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching random verse' }); // Handle error
+  }
+});
+
+// Endpoint to fetch a specific Bible verse (e.g., John 3:16)
+app.get('/specific-verse', async (req, res) => {
+  const passage = 'John 3:16'; // Specific verse to fetch
+  try {
+    const response = await axios.get(`https://labs.bible.org/api/?passage=${passage}`);
+    res.json(response.data[0]); // Send the specific verse back to the client
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching specific verse' }); // Handle error
+  }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
