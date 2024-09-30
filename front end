@@ -1,0 +1,28 @@
+import React, { useState } from 'react';
+
+const RandomVerse = () => {
+  const [verse, setVerse] = useState('');
+
+  const fetchRandomVerse = async () => {
+    try {
+      // Call the public API to get a random verse
+      const response = await fetch('https://labs.bible.org/api/?passage=random');
+      const data = await response.json();
+
+      // Set the verse state with the received data
+      setVerse(`${data[0].book} ${data[0].chapter}:${data[0].verse} - ${data[0].text}`);
+    } catch (error) {
+      console.error('Error fetching the random verse:', error);
+    }
+  };
+
+  return (
+    <div>
+      <h2>Random Bible Verse</h2>
+      <button onClick={fetchRandomVerse}>Get Random Verse</button>
+      <p>{verse}</p>
+    </div>
+  );
+};
+
+export default RandomVerse;
