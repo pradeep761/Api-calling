@@ -1,0 +1,40 @@
+import React, { useState } from 'react';
+
+const SpecificVerse = () => {
+  // State to hold the specific verse data
+  const [verse, setVerse] = useState('');
+  
+  // Function to fetch a specific verse from the API
+  const fetchSpecificVerse = async () => {
+    const passage = 'John 3:16'; // Define the specific verse to fetch
+    try {
+      // Make a GET request to the API to fetch the specific verse
+      const response = await fetch(`https://labs.bible.org/api/?passage=${passage}`);
+      
+      // Check if the response is ok (status in the range 200-299)
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      // Parse the JSON response
+      const data = await response.json();
+
+      // Update the verse state with the fetched data
+      setVerse(`${data[0].book} ${data[0].chapter}:${data[0].verse} - ${data[0].text}`);
+    } catch (error) {
+      // Log any errors that occur during the fetch
+      console.error('Error fetching the specific verse:', error);
+      setVerse('Error fetching the verse. Please try again.'); // Update the state with an error message
+    }
+  };
+
+  return (
+    <div>
+      <h2>Specific Bible Verse</h2>
+      <button onClick={fetchSpecificVerse}>Get John 3:16</button>
+      <p>{verse}</p>
+    </div>
+  );
+};
+
+export default SpecificVerse;
